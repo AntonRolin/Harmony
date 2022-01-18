@@ -3,26 +3,52 @@ package com.anton.chat_application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import com.anton.chat_application.Models.GroupItem
+import com.anton.chat_application.databinding.ActivityGroupsBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.xwray.groupie.GroupieAdapter
-import kotlinx.android.synthetic.main.activity_groups.*
 
 class GroupsActivity : AppCompatActivity() {
+    private val tagGroups = "GroupsActivity"
+    private lateinit var activityBinding: ActivityGroupsBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_groups)
+        activityBinding = ActivityGroupsBinding.inflate(layoutInflater)
+        val view = activityBinding.root
+        setContentView(view)
 
         verifyUserIsLoggedIn()
+        fetchGroups()
 
-        val adapter = GroupieAdapter()
-        adapter.add(GroupItem())
+    }
 
-        myGroups_Groups_recyclerView.adapter = adapter
+    private fun fetchGroups(){
+        val ref = FirebaseDatabase.getInstance("https://harmony-chatapp-default-rtdb.europe-west1.firebasedatabase.app").getReference("/groups")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener {
 
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val adapter = GroupieAdapter()
 
+                snapshot.children.forEach {
+                    val group = it.getValue(Models.Group::class.java) ?: return@forEach
+                    adapter.add(GroupItem(group))
+                }
+
+                activityBinding.myGroupsGroupsRecyclerView.adapter = adapter
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.d(tagGroups, "Error: ${error.message}")
+            }
+        })
     }
 
     private fun verifyUserIsLoggedIn() {

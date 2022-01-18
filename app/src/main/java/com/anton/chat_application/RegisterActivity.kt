@@ -2,31 +2,22 @@ package com.anton.chat_application
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.ImageDecoder
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.provider.Settings
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import com.anton.chat_application.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import id.zelory.compressor.Compressor
-import id.zelory.compressor.Compressor.compress
-import kotlinx.android.synthetic.main.activity_register.*
 import java.util.*
 
 class RegisterActivity : AppCompatActivity() {
     private val tagRegister = "RegisterActivity"
+    private lateinit var activityBinding: ActivityRegisterBinding
     private var selectedPhotoUri: Uri? = null
     private var imageDownloadUrl: String = ""
     private var username: String = ""
@@ -34,23 +25,24 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        activityBinding = ActivityRegisterBinding.inflate(layoutInflater)
+        val view = activityBinding.root
+        setContentView(view)
 
         setupMenuBar()
-        fetchStandardProfileImageFromFirebaseDatabase()
 
-        selectPhoto_Register_button.setOnClickListener {
+        activityBinding.selectPhotoRegisterButton.setOnClickListener {
 
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 0)
         }
 
-        register_Register_button.setOnClickListener {
+        activityBinding.registerRegisterButton.setOnClickListener {
             performRegister()
         }
 
-        alreadyHaveAccount_Register_textView.setOnClickListener {
+        activityBinding.alreadyHaveAccountRegisterTextView.setOnClickListener {
             Log.d(tagRegister, "Try to show login activity")
 
             intent = Intent(this, LoginActivity::class.java)
@@ -60,12 +52,12 @@ class RegisterActivity : AppCompatActivity() {
 
     //TODO: Kolla så att username är unikt
     private fun performRegister() {
-        val email = email_Register_editText.text.toString()
-        val password = password_Register_editTextPassword.text.toString()
-        username = username_Register_editText.text.toString()
+        val email = activityBinding.emailRegisterEditText.text.toString()
+        val password = activityBinding.passwordRegisterEditTextPassword.text.toString()
+        username = activityBinding.usernameRegisterEditText.text.toString()
 
         if (email.isEmpty() || password.isEmpty() || username.isEmpty()) {
-            Toast.makeText(this, "Please enter your account information", Toast.LENGTH_LONG).show()
+            GeneralFunctions().generateSnackBar(this, activityBinding.root, "Please enter your account information")
             return
         }
 
@@ -83,11 +75,13 @@ class RegisterActivity : AppCompatActivity() {
             }
             .addOnFailureListener {
                 Log.d(tagRegister, "Failed to create user: ${it.message}")
-                Toast.makeText(this, "Error: ${it.message}", Toast.LENGTH_LONG).show()
+                GeneralFunctions().generateSnackBar(this, activityBinding.root, "Error: ${it.message}")
             }
     }
 
     private fun uploadImageToFirebaseStorage() {
+        fetchStandardProfileImageFromFirebaseDatabase()
+
         if (selectedPhotoUri == null) {
             saveUserToFirebaseDatabase()
             return
@@ -169,8 +163,8 @@ class RegisterActivity : AppCompatActivity() {
                         MediaStore.Images.Media.getBitmap(this.contentResolver, selectedPhotoUri)
                     }
                 }
-                profileImage_Register_circleview.setImageBitmap(bitmap)
-                selectPhoto_Register_button.alpha = 0f
+                activityBinding.profileImageRegisterCircleview.setImageBitmap(bitmap)
+                activityBinding.selectPhotoRegisterButton.alpha = 0f
 
             }catch (e:Throwable){
                 Log.d(tagRegister,"$e")

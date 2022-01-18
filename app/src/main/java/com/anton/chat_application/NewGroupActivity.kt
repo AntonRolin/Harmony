@@ -9,14 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.widget.Toast
+import com.anton.chat_application.databinding.ActivityNewGroupBinding
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.android.synthetic.main.activity_new_group.*
 import java.util.*
 
 class NewGroupActivity : AppCompatActivity() {
     private val tagNewGroup = "NewGroupActivity"
+    private lateinit var activityBinding: ActivityNewGroupBinding
     private var selectedPhotoUri: Uri? = null
     private var imageDownloadUrl: String = ""
     private var groupName: String = ""
@@ -24,16 +24,18 @@ class NewGroupActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_new_group)
+        activityBinding = ActivityNewGroupBinding.inflate(layoutInflater)
+        val view = activityBinding.root
+        setContentView(view)
 
         setupMenuBar()
         fetchStandardGroupImageFromFirebaseDatabase()
 
-        createGroup_NewGroup_button.setOnClickListener {
+        activityBinding.createGroupNewGroupButton.setOnClickListener {
             performCreateGroup()
         }
 
-        selectPhoto_NewGroup_button.setOnClickListener {
+        activityBinding.selectPhotoNewGroupButton.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 0)
@@ -41,10 +43,10 @@ class NewGroupActivity : AppCompatActivity() {
     }
 
     private fun performCreateGroup() {
-        groupName = groupName_NewGroup_editText.text.toString()
+        groupName = activityBinding.groupNameNewGroupEditText.text.toString()
 
         if (groupName.isEmpty()) {
-            Toast.makeText(this, "Please enter a name for your group", Toast.LENGTH_LONG).show()
+            GeneralFunctions().generateSnackBar(this, activityBinding.root, "Please enter a name for your group")
             return
         }
         Log.d(tagNewGroup, "Group name is: $groupName")
@@ -131,8 +133,8 @@ class NewGroupActivity : AppCompatActivity() {
                         MediaStore.Images.Media.getBitmap(this.contentResolver, selectedPhotoUri)
                     }
                 }
-                groupImage_NewGroup_circleview.setImageBitmap(bitmap)
-                selectPhoto_NewGroup_button.alpha = 0f
+                activityBinding.groupImageNewGroupCircleview.setImageBitmap(bitmap)
+                activityBinding.selectPhotoNewGroupButton.alpha = 0f
 
             }catch (e:Throwable){
                 Log.d(tagNewGroup,"$e")
