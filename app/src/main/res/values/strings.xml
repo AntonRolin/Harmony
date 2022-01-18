@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Chat-application</string>
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="e_mail">E-mail</string>
+    <string name="password">Password</string>
+    <string name="already_have_an_account">Already have an account? ➔</string>
+    <string name="login">Log in</string>
+    <string name="return_to_signup">Return to signup ➔</string>
+</resources>
