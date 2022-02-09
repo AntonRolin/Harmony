@@ -1,9 +1,12 @@
-package com.anton.chat_application
+package com.anton.chat_application.loginregister
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import com.anton.chat_application.GeneralFunctions
+import com.anton.chat_application.groups.GroupsActivity
+import com.anton.chat_application.R
 import com.anton.chat_application.databinding.ActivityLoginBinding
 import com.google.firebase.auth.FirebaseAuth
 

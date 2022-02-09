@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_color"
-    tools:context=".subjects.SubjectsActivity">
+    tools:context=".subjects.AddMemberActivity"
+    android:background="@color/main_color">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/groupSubjects_recyclerView"
+        android:id="@+id/recyclerview_add_member"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

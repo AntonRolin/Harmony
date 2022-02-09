@@ -1,4 +1,4 @@
-package com.anton.chat_application
+package com.anton.chat_application.groups
 
 import android.app.Activity
 import android.content.Intent
@@ -9,7 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import com.anton.chat_application.GeneralFunctions
 import com.anton.chat_application.databinding.ActivityNewGroupBinding
+import com.anton.chat_application.models.Group
+import com.anton.chat_application.models.Member
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
@@ -47,6 +51,10 @@ class NewGroupActivity : AppCompatActivity() {
 
         if (groupName.isEmpty()) {
             GeneralFunctions().generateSnackBar(this, activityBinding.root, "Please enter a name for your group")
+            return
+        }
+        if (groupName.length > 25) {
+            GeneralFunctions().generateSnackBar(this, activityBinding.root, "Group name is too long (max 25)")
             return
         }
         Log.d(tagNewGroup, "Group name is: $groupName")
@@ -90,14 +98,29 @@ class NewGroupActivity : AppCompatActivity() {
             else -> imageDownloadUrl
         }
         Log.d(tagNewGroup, "ImageURL: $imageUrl")
-        val group = Models.Group(groupName, imageUrl)
+        val group = Group(uid, groupName, imageUrl)
 
         ref.setValue(group)
             .addOnSuccessListener {
                 Log.d(tagNewGroup, "Saved group to Firebase Database")
+                addUserToGroupInFirebaseDatabase(group)
+            }
+            .addOnFailureListener {
+                Log.d(tagNewGroup, "Error: ${it.message}")
+            }
+    }
 
-                val intent = Intent(this, GroupsActivity::class.java)
-                startActivity(intent)
+    private fun addUserToGroupInFirebaseDatabase(group: Group) {
+        val userUid = FirebaseAuth.getInstance().uid ?: return
+
+        val ref = FirebaseDatabase.getInstance("https://harmony-chatapp-default-rtdb.europe-west1.firebasedatabase.app").getReference("/groups/${group.uid}/members/$userUid")
+
+        val member = Member(userUid)
+
+        ref.setValue(member)
+            .addOnSuccessListener {
+                Log.d(tagNewGroup, "Successfully added user to group in Firebase Database")
+                finish()
             }
             .addOnFailureListener {
                 Log.d(tagNewGroup, "Error: ${it.message}")

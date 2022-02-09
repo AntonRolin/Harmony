@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".NewGroupActivity">
+    android:background="@color/main_color"
+    tools:context=".groups.NewGroupActivity">
 
     <Button
         android:id="@+id/selectPhoto_NewGroup_button"
@@ -69,5 +69,5 @@
         app:layout_constraintEnd_toStartOf="@+id/groupName_NewGroup_editText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/groupName_NewGroup_editText"
-        app:srcCompat="@drawable/ic_baseline_edit_note_24" />
+        app:srcCompat="@drawable/edit_note_24p" />
 </androidx.constraintlayout.widget.ConstraintLayout>

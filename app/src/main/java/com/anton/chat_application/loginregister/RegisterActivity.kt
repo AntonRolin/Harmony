@@ -1,4 +1,4 @@
-package com.anton.chat_application
+package com.anton.chat_application.loginregister
 
 import android.app.Activity
 import android.content.Intent
@@ -9,7 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import com.anton.chat_application.GeneralFunctions
+import com.anton.chat_application.groups.GroupsActivity
+import com.anton.chat_application.R
 import com.anton.chat_application.databinding.ActivityRegisterBinding
+import com.anton.chat_application.models.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -30,6 +34,7 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(view)
 
         setupMenuBar()
+        fetchStandardProfileImageFromFirebaseDatabase()
 
         activityBinding.selectPhotoRegisterButton.setOnClickListener {
 
@@ -50,7 +55,7 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    //TODO: Kolla så att username är unikt
+    //TODO: Kolla så att username är unikt?
     private fun performRegister() {
         val email = activityBinding.emailRegisterEditText.text.toString()
         val password = activityBinding.passwordRegisterEditTextPassword.text.toString()
@@ -80,8 +85,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun uploadImageToFirebaseStorage() {
-        fetchStandardProfileImageFromFirebaseDatabase()
-
         if (selectedPhotoUri == null) {
             saveUserToFirebaseDatabase()
             return
@@ -117,7 +120,7 @@ class RegisterActivity : AppCompatActivity() {
             else -> imageDownloadUrl
         }
         Log.d(tagRegister, "ImageURL: $imageUrl")
-        val user = Models.User(uid, username, imageUrl)
+        val user = User(uid, username, imageUrl)
 
         ref.setValue(user)
             .addOnSuccessListener {

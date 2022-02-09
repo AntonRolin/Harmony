@@ -1,4 +1,4 @@
-package com.anton.chat_application
+package com.anton.chat_application.groups
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,48 +6,79 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import com.anton.chat_application.Models.GroupItem
+import com.anton.chat_application.R
 import com.anton.chat_application.databinding.ActivityGroupsBinding
+import com.anton.chat_application.loginregister.RegisterActivity
+import com.anton.chat_application.models.Group
+import com.anton.chat_application.models.GroupItem
+import com.anton.chat_application.models.Member
+import com.anton.chat_application.subjects.SubjectsActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import com.xwray.groupie.GroupieAdapter
 
 class GroupsActivity : AppCompatActivity() {
     private val tagGroups = "GroupsActivity"
     private lateinit var activityBinding: ActivityGroupsBinding
+    private val adapter = GroupieAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        verifyUserIsLoggedIn()
+
         super.onCreate(savedInstanceState)
         activityBinding = ActivityGroupsBinding.inflate(layoutInflater)
         val view = activityBinding.root
         setContentView(view)
+        activityBinding.myGroupsGroupsRecyclerView.adapter = adapter
 
-        verifyUserIsLoggedIn()
-        fetchGroups()
+        setupMenuBar()
+        fetchGroupsFromFirebaseDatabase()
 
     }
 
-    private fun fetchGroups(){
+    companion object {
+        const val GROUP_KEY = "GROUP_KEY"
+    }
+
+    private fun fetchGroupsFromFirebaseDatabase() {
         val ref = FirebaseDatabase.getInstance("https://harmony-chatapp-default-rtdb.europe-west1.firebasedatabase.app").getReference("/groups")
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
+        val userUid = FirebaseAuth.getInstance().uid
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val adapter = GroupieAdapter()
+        ref.addChildEventListener(object: ChildEventListener {
+            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
+                val group = snapshot.getValue(Group::class.java) ?: return
 
-                snapshot.children.forEach {
-                    val group = it.getValue(Models.Group::class.java) ?: return@forEach
-                    adapter.add(GroupItem(group))
+                snapshot.child("/members/$userUid").getValue(Member::class.java) ?: return
+
+                val memberCount = snapshot.child("/members").children.count()
+
+                adapter.add(GroupItem(group, memberCount))
+
+                adapter.setOnItemClickListener { item, view ->
+                    val groupItem = item as GroupItem
+
+                    val intent = Intent(view.context, SubjectsActivity::class.java)
+                    intent.putExtra(GROUP_KEY, groupItem.group)
+                    startActivity(intent)
                 }
+            }
 
-                activityBinding.myGroupsGroupsRecyclerView.adapter = adapter
+            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
+
+            }
+
+            override fun onChildRemoved(snapshot: DataSnapshot) {
+
+            }
+
+            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
+
             }
 
             override fun onCancelled(error: DatabaseError) {
                 Log.d(tagGroups, "Error: ${error.message}")
             }
+
         })
     }
 
@@ -59,6 +90,14 @@ class GroupsActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
         }
+    }
+
+    private fun setupMenuBar(){
+        supportActionBar?.setDisplayShowHomeEnabled(false)
+        supportActionBar?.title = "My Groups"
+        supportActionBar?.setDisplayShowTitleEnabled(true)
+        supportActionBar?.setLogo(R.drawable.logo_square)
+        supportActionBar?.setDisplayUseLogoEnabled(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

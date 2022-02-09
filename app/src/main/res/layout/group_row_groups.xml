@@ -4,23 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="16dp"
+    android:paddingBottom="16dp"
+    android:background="@color/main_color"
+    android:backgroundTint="@color/main_color_alt">
 
     <TextView
         android:id="@+id/groupName_textView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:text="Group Name"
         android:textColor="@color/black"
-        android:textSize="16sp"
+        android:textSize="22sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/groupImage_circleview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/groupImage_circleview"
-        app:layout_constraintTop_toTopOf="@+id/groupImage_circleview"
-        app:layout_constraintVertical_bias="0.618" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/groupImage_circleview"
@@ -31,4 +33,29 @@
         app:civ_border_width="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/members_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Members:"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/groupName_textView"
+        app:layout_constraintTop_toBottomOf="@+id/groupName_textView" />
+
+    <TextView
+        android:id="@+id/memberCount_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="X"
+        android:textColor="@color/grey"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/members_textView"
+        app:layout_constraintStart_toEndOf="@+id/members_textView"
+        app:layout_constraintTop_toTopOf="@+id/members_textView" />
 </androidx.constraintlayout.widget.ConstraintLayout>

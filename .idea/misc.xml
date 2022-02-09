@@ -3,23 +3,40 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/anton/.gradle/caches/transforms-3/cb5bda9114ab81da3d3d11b3d4fdea14/transformed/core-1.3.2/res/drawable/notification_icon_background.xml" value="0.4161458333333333" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.38125" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/add_group_72.xml" value="0.2828125" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/circle_button_newgroup.xml" value="0.2557291666666667" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/circle_button_register.xml" value="0.3359375" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/edit_note_24p.xml" value="0.38125" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/group_add_72p.xml" value="0.2828125" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/ic_baseline_logout_24.xml" value="0.2791666666666667" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/logout_72p.xml" value="0.2828125" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/rounded_button_chatlog.xml" value="0.4005208333333333" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/rounded_edittext_login_signup.xml" value="0.2786458333333333" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/rounded_edittext_new_group.xml" value="0.2557291666666667" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/rounded_label_image_new_group.xml" value="0.24375" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/rounded_subject_row.xml" value="0.2828125" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/drawable/rounded_textview_chatlog.xml" value="0.4005208333333333" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/activity_add_member.xml" value="0.26666666666666666" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/activity_chat.xml" value="0.4" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/activity_groups.xml" value="0.264" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/activity_login.xml" value="0.4" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/activity_message_log.xml" value="0.3423913043478261" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/activity_new_group.xml" value="0.23958333333333334" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/activity_new_subject.xml" value="0.353713768115942" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/activity_register.xml" value="0.284375" />
-        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/activity_subjects.xml" value="0.4" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/activity_subjects.xml" value="0.264" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/add_member_user_row.xml" value="0.26666666666666666" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/group_row_groups.xml" value="0.2630208333333333" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/subject_row_subjects.xml" value="0.2609375" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/user_from_row_chatlog.xml" value="0.4" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/layout/user_to_row_chatlog.xml" value="0.3423913043478261" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/menu/menu_groups.xml" value="0.2630208333333333" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/menu/menu_groups_activity.xml" value="0.24270833333333333" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/menu/menu_register_login.xml" value="0.284375" />
+        <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/menu/menu_subjects.xml" value="0.4" />
         <entry key="..\:/Users/anton/Desktop/Programming/Kotlin/ExamensArbete/Chat-application/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.24375" />
       </map>
     </option>

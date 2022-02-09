@@ -5,25 +5,57 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".AppBase"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="Harmony"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Chatapplication">
+        android:theme="@style/Theme.Chatapplication"
+        android:usesCleartextTraffic="true">
         <activity
-            android:name=".SubjectsActivity"
-            android:exported="false" />
+            android:name=".messages.MessageLogActivity"
+            android:exported="false"
+            android:parentActivityName=".subjects.SubjectsActivity">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".subjects.SubjectsActivity" />
+        </activity>
         <activity
-            android:name=".NewGroupActivity"
+            android:name=".subjects.AddMemberActivity"
             android:exported="false">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".GroupsActivity" />
+                android:value=".subjects.SubjectsActivity" />
         </activity>
         <activity
-            android:name=".GroupsActivity"
-            android:exported="true">
+            android:name=".subjects.SubjectsActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:parentActivityName=".groups.GroupsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".groups.GroupsActivity" />
+        </activity>
+        <activity
+            android:name=".subjects.NewSubjectActivity"
+            android:exported="false"
+            android:parentActivityName=".subjects.SubjectsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".subjects.SubjectsActivity" />
+        </activity>
+        <activity
+            android:name=".groups.NewGroupActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".groups.GroupsActivity" />
+        </activity>
+        <activity
+            android:name=".groups.GroupsActivity"
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -31,16 +63,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".loginregister.RegisterActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".loginregister.LoginActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

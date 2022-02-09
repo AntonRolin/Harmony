@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GroupsActivity">
+    tools:context=".groups.GroupsActivity"
+    android:background="@color/main_color">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/myGroups_Groups_recyclerView"

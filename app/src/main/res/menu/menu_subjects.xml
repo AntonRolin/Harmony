@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/menu_new_subject"
+        android:title="New Subject"
+        android:icon="@drawable/add_subject_72"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/menu_add_member"
+        android:title="Add Member"
+        android:icon="@drawable/add_member_72"
+        app:showAsAction="ifRoom"/>
+</menu>

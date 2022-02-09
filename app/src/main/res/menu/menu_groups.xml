@@ -4,11 +4,11 @@
 
     <item android:id="@+id/menu_new_group"
         android:title="New Group"
-        android:icon="@drawable/ic_baseline_group_add_72"
+        android:icon="@drawable/add_group_72"
         app:showAsAction="ifRoom"/>
 
     <item android:id="@+id/menu_sign_out"
         android:title="Sign Out"
-        android:icon="@drawable/ic_baseline_logout_72"
+        android:icon="@drawable/logout_72p"
         app:showAsAction="ifRoom"/>
 </menu>
