@@ -21,6 +21,8 @@ class GroupsActivity : AppCompatActivity() {
     private val tagGroups = "GroupsActivity"
     private lateinit var activityBinding: ActivityGroupsBinding
     private val adapter = GroupieAdapter()
+    private lateinit var databaseGroupsRef: DatabaseReference
+    private lateinit var groupListener: Unit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         verifyUserIsLoggedIn()
@@ -34,6 +36,10 @@ class GroupsActivity : AppCompatActivity() {
         setupMenuBar()
         fetchGroupsFromFirebaseDatabase()
 
+        activityBinding.groupsSwipeRefreshLayout.setOnRefreshListener {
+            refreshGroups()
+        }
+
     }
 
     companion object {
@@ -41,18 +47,19 @@ class GroupsActivity : AppCompatActivity() {
     }
 
     private fun fetchGroupsFromFirebaseDatabase() {
-        val ref = FirebaseDatabase.getInstance("https://harmony-chatapp-default-rtdb.europe-west1.firebasedatabase.app").getReference("/groups")
+        databaseGroupsRef = FirebaseDatabase.getInstance("https://harmony-chatapp-default-rtdb.europe-west1.firebasedatabase.app").getReference("/groups")
         val userUid = FirebaseAuth.getInstance().uid
 
-        ref.addChildEventListener(object: ChildEventListener {
-            override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val group = snapshot.getValue(Group::class.java) ?: return
+        groupListener = databaseGroupsRef.addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
 
-                snapshot.child("/members/$userUid").getValue(Member::class.java) ?: return
+                snapshot.children.forEach {
+                    val group = it.getValue(Group::class.java) ?: return@forEach
+                    it.child("/members/$userUid").getValue(Member::class.java) ?: return@forEach
+                    val memberCount = it.child("/members").children.count()
 
-                val memberCount = snapshot.child("/members").children.count()
-
-                adapter.add(GroupItem(group, memberCount))
+                    adapter.add(GroupItem(group, memberCount))
+                }
 
                 adapter.setOnItemClickListener { item, view ->
                     val groupItem = item as GroupItem
@@ -61,18 +68,7 @@ class GroupsActivity : AppCompatActivity() {
                     intent.putExtra(GROUP_KEY, groupItem.group)
                     startActivity(intent)
                 }
-            }
-
-            override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-
-            }
-
-            override fun onChildRemoved(snapshot: DataSnapshot) {
-
-            }
-
-            override fun onChildMoved(snapshot: DataSnapshot, previousChildName: String?) {
-
+                activityBinding.groupsSwipeRefreshLayout.isRefreshing = false
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -92,6 +88,13 @@ class GroupsActivity : AppCompatActivity() {
         }
     }
 
+    private fun refreshGroups() {
+        Log.d(tagGroups, "Attempting to refresh groups")
+
+        adapter.clear()
+        fetchGroupsFromFirebaseDatabase()
+    }
+
     private fun setupMenuBar(){
         supportActionBar?.setDisplayShowHomeEnabled(false)
         supportActionBar?.title = "My Groups"
@@ -105,11 +108,17 @@ class GroupsActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        refreshGroups()
+
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_new_group -> {
                 val intent = Intent(this, NewGroupActivity::class.java)
-                startActivity(intent)
+                startActivityForResult(intent, 0)
             }
             R.id.menu_sign_out -> {
                 FirebaseAuth.getInstance().signOut()

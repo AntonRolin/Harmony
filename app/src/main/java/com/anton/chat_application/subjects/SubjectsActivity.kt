@@ -16,6 +16,8 @@ import com.anton.chat_application.models.Subject
 import com.anton.chat_application.models.SubjectItem
 import com.google.firebase.database.*
 import com.xwray.groupie.GroupieAdapter
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 class SubjectsActivity : AppCompatActivity() {
     private val tagSubjects = "SubjectsActivity"
@@ -78,6 +80,7 @@ class SubjectsActivity : AppCompatActivity() {
 
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 Log.d(tagSubjects, "Subject changed: ${snapshot.value}")
+                Thread.sleep(500)
 
                 val subject = snapshot.getValue(Subject::class.java) ?: return
                 val latestMessage =
